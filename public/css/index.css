@@ -35,6 +35,7 @@ article{
     height: 100vh;
     display: flex;
 }
+
 button{
     display: block;
     width: 10vw;
@@ -51,15 +52,18 @@ button{
     -webkit-transition: all 0.4s;
     transition: all 0.4s;
 }
+
 button:hover{
     -webkit-transform: scale(1.2);
     transform: scale(1.2);
     -webkit-transition: all 0.4s;
     transition: all 0.4s;
 }
+
 #create{
     background-color: #001686;
 }
+
 #show{
     background-color: #B56000;
 }
