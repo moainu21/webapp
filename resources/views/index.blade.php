@@ -18,13 +18,36 @@
             <button id="show">閲覧</button>
         </div>
         <div class="contents">
-            <!-- <a href="#">１年生</a> -->
+            <div class="create-contents">
+                <h2>スケジュール作成</h2>
+                <a href="create_form">試合</a><br>
+                <a href="#">カレンダー</a><br>
+            </div>
+            <div class="show-contents">
+                <h2>試合スケジュール（過去）</h2>
+                <a href="#">１年生</a><br>
+                <a href="#">２年生</a><br>
+                <a href="#">３年生</a><br>
+                <a href="#">４年生</a><br>
+                <a href="#">５年生</a><br>
+                <a href="#">６年生</a><br>
+                <a href="#">カレンダー</a><br>
+                <h2>試合スケジュール（予定）</h2>
+                <a href="#">１年生</a><br>
+                <a href="#">２年生</a><br>
+                <a href="#">３年生</a><br>
+                <a href="#">４年生</a><br>
+                <a href="#">５年生</a><br>
+                <a href="#">６年生</a><br>
+                <a href="#">カレンダー</a><br>
+            </div>
+
         </div>
     </article>
     <footer>
         <p>&copy; 2025 試合スケジュール管理システム</p>
     </footer>
 
-    <script src="{{ asset('js/index.js') }}"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

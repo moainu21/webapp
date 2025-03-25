@@ -1,0 +1,12 @@
+h1,footer{
+    text-align: center;
+    margin: auto;
+}
+header{
+    margin-top: 2%;
+}
+hr{
+    border: none;
+    border-bottom: 10px solid #333;
+    margin: 0;
+}
