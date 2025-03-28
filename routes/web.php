@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::get('/create_form', [CreateController::class, 'create'])->name('create_form');
+Route::post('/create_check', [CreateController::class, 'index'])->name('create_check');

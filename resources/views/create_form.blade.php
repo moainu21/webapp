@@ -11,18 +11,18 @@
         <h1>スケジュール作成画面</h1><br>
     </header>
     <hr>
-    <form action="#" method="POST">
+    <form action="{{ route('create_check') }}" method="POST">
         @csrf
         <div class="item">
-            <label for="school_year">学年:</label>
-            <select name="school_year" id="school_year">
+            <label for="school_years">学年:</label>
+            <select name="school_years[]" class="school_years" required>
                 <option value="">学年を選択してください</option>
-                <option value="one">１年生</option>
-                <option value="two">２年生</option>
-                <option value="three">３年生</option>
-                <option value="four">４年生</option>
-                <option value="five">５年生</option>
-                <option value="six">６年生</option>
+                <option value="１年生">１年生</option>
+                <option value="２年生">２年生</option>
+                <option value="３年生">３年生</option>
+                <option value="４年生">４年生</option>
+                <option value="５年生">５年生</option>
+                <option value="６年生">６年生</option>
             </select>
         </div><br>
 
@@ -37,8 +37,8 @@
         </div><br>
 
         <div class="item">
-            <label for="opponent">対戦相手:</label>
-            <input type="text" name="opponent" id="opponent" required>
+            <label for="opponents">対戦相手:</label>
+            <input type="text" name="opponents[]" class="opponents" required>
         </div><br>
 
         <div class="item">
@@ -78,7 +78,7 @@
                     <label for="number_of_matches" class="lavel">試合回数:</label>
                     <button type=”button” id="toggle_btn"><img src="image/change.jpg" alt="変化させるボタン"></button>
                 </div>
-                <input type="number" name="number_of_matches" id="number_of_matches" required><label for="number_of_matches">回</label>
+                <input type="number" name="number_of_matches" id="number_of_matches"><label for="number_of_matches">回</label>
             </div><br>
 
             <div class="item" id="finish">
@@ -86,41 +86,41 @@
                     <label for="end_time" class="lavel">終了時間:</label>
                     <button type=”button” id="toggle_btn"><img src="image/change.jpg" alt="変化させるボタン"></button>
                 </div>
-                <input type="time" name="end_time" id="end_time" required>
+                <input type="time" name="end_time" id="end_time">
             </div><br>
 
             <div class="item" id=interval_div>
                 <label for="interval">試合間隔:</label>
-                <input type="number" name="interval" id="interval" required><label for="interval">分</label>
+                <input type="number" name="interval" id="interval"><label for="interval">分</label>
             </div><br>
         </div>
 
         <div id="official_match">
             <div class="item">
                 <label for="qualifying_interval">予選試合間隔:</label>
-                <input type="number" name="qualifying_interval" id="qualifying_interval" required><label for="qualifying_interval">分</label>
+                <input type="number" name="qualifying_interval" id="qualifying_interval"><label for="qualifying_interval">分</label>
             </div><br>
 
             <div class="item">
                 <label for="semi_final_interval">準決勝準備時間:</label>
-                <input type="number" name="semi_final_interval" id="semi_final_interval" required><label for="semi_final_interval">分</label>
+                <input type="number" name="semi_final_interval" id="semi_final_interval"><label for="semi_final_interval">分</label>
             </div><br>
 
             <div class="item">
                 <label for="final_interval">決勝準備時間:</label>
-                <input type="number" name="final_interval" id="final_interval" required><label for="final_interval">分</label>
+                <input type="number" name="final_interval" id="final_interval"><label for="final_interval">分</label>
             </div><br>
         </div>
 
         <div class = half_time>
             <label for="half_time" class="my-radio">ハーフタイム:</label>
-            <label for="true"><input type="radio" name="half_time" id="true" value="true" checked="on">あり</label>
-            <label for="false"><input type="radio" name="half_time" id="false" value="false">なし</label>
+            <label for="true"><input type="radio" name="half_time_check" id="true" value="true" checked="on">あり</label>
+            <label for="false"><input type="radio" name="half_time_check" id="false" value="false">なし</label>
             <button type="submit" id="next_btn">次へ</button>
         </div><br>
 
         <div id="half_time_input">
-            <input type="number" name="half_time" id="half_time" required><label for="half_time">分</label>
+            <input type="number" name="half_time" id="half_time"><label for="half_time">分</label>
         </div>
     </form>
     <footer>
