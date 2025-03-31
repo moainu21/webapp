@@ -22,7 +22,7 @@ class CreateController extends Controller
         $request->session()->put('name', $request->input('name'));
         $request->session()->put('plase', $request->input('plase'));
 
-        $opponents = $request->input('opponent', []);
+        $opponents = $request->input('opponents', []);
 
         // もし配列が空でない場合、「自分」を配列の先頭に追加
         if (!empty($opponents)) {

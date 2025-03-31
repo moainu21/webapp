@@ -39,6 +39,9 @@
         <div class="item">
             <label for="opponents">対戦相手:</label>
             <input type="text" name="opponents[]" class="opponents" required>
+            <input type="text" name="opponents[]" class="opponents">
+            <input type="text" name="opponents[]" class="opponents">
+            <input type="text" name="opponents[]" class="opponents">
         </div><br>
 
         <div class="item">
@@ -53,17 +56,17 @@
 
         <div class="item">
             <label for="time">試合時間:</label>
-            <input type="number" name="time" id="time" required><label for="time">分</label>
+            <input type="number" name="time" id="time" min="1" max="45" required><label for="time">分</label>
         </div><br>
 
         <div class="item">
             <label for="court">コート数:</label>
-            <input type="number" name="court" id="court" required><label for="court">個</label>
+            <input type="number" name="court" id="court" min="1" required><label for="court">個</label>
         </div><br>
 
         <div class="item">
             <label for="people">試合人数:</label>
-            <input type="number" name="people" id="people" required><label for="people">人</label>
+            <input type="number" name="people" id="people" min="1" required><label for="people">人</label>
         </div><br>
 
         <div class="item">
@@ -78,7 +81,7 @@
                     <label for="number_of_matches" class="lavel">試合回数:</label>
                     <button type=”button” id="toggle_btn"><img src="image/change.jpg" alt="変化させるボタン"></button>
                 </div>
-                <input type="number" name="number_of_matches" id="number_of_matches"><label for="number_of_matches">回</label>
+                <input type="number" name="number_of_matches" id="number_of_matches" min="1"><label for="number_of_matches">回</label>
             </div><br>
 
             <div class="item" id="finish">
@@ -91,24 +94,24 @@
 
             <div class="item" id=interval_div>
                 <label for="interval">試合間隔:</label>
-                <input type="number" name="interval" id="interval"><label for="interval">分</label>
+                <input type="number" name="interval" id="interval" min="1"><label for="interval">分</label>
             </div><br>
         </div>
 
         <div id="official_match">
             <div class="item">
                 <label for="qualifying_interval">予選試合間隔:</label>
-                <input type="number" name="qualifying_interval" id="qualifying_interval"><label for="qualifying_interval">分</label>
+                <input type="number" name="qualifying_interval" id="qualifying_interval" min="1"><label for="qualifying_interval">分</label>
             </div><br>
 
             <div class="item">
                 <label for="semi_final_interval">準決勝準備時間:</label>
-                <input type="number" name="semi_final_interval" id="semi_final_interval"><label for="semi_final_interval">分</label>
+                <input type="number" name="semi_final_interval" id="semi_final_interval" min="1"><label for="semi_final_interval">分</label>
             </div><br>
 
             <div class="item">
                 <label for="final_interval">決勝準備時間:</label>
-                <input type="number" name="final_interval" id="final_interval"><label for="final_interval">分</label>
+                <input type="number" name="final_interval" id="final_interval" min="1"><label for="final_interval">分</label>
             </div><br>
         </div>
 
@@ -120,7 +123,7 @@
         </div><br>
 
         <div id="half_time_input">
-            <input type="number" name="half_time" id="half_time"><label for="half_time">分</label>
+            <input type="number" name="half_time" id="half_time" min="1"><label for="half_time">分</label>
         </div>
     </form>
     <footer>

@@ -16,6 +16,7 @@
     @php
         use Carbon\Carbon;
 
+        $n = 0;
         $count = session('number_of_matches',0);
         $endTime = session('end_time','00:00');
         $startTime = session('start_time');
@@ -83,6 +84,8 @@
                 
 
                 <p>{{ $i }}試合目</p>
+                <p>{{ htmlspecialchars($scheduled_matches[$n][0]) }} vs {{ htmlspecialchars($scheduled_matches[$n][1]) }}</p>
+
 
                 @php
                     $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
