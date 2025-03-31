@@ -91,6 +91,15 @@
                 <p>{{ $i }}試合目</p>
                 <p>{{ htmlspecialchars($scheduled_matches[$n][0]) }} vs {{ htmlspecialchars($scheduled_matches[$n][1]) }}</p>
 
+                @if ($n < count($scheduled_matches) - 1)
+                    @php
+                        $n++;
+                    @endphp
+                @else
+                    @php
+                        $n = 0;
+                    @endphp
+                @endif
 
                 @php
                     $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
