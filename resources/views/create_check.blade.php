@@ -7,7 +7,12 @@
 </head>
 <body>
     <h1>{{ session('name') }}</h1>
-    <h2>{{ session('school_year') }}</h2>
+    @php
+        $schoolYears = session('school_years')
+    @endphp
+    @foreach ($schoolYears as $school)
+        <h2>{{ $school }}</h2>
+    @endforeach
     <h2>日程：{{ session('date') }}</h2>
     <h2>会場：{{ session('plase') }}</h2>
     <h2>試合時間：{{ session('time') }}分1本</h2>

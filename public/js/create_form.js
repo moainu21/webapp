@@ -66,3 +66,39 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", toggleDisplay);
     });
 })
+
+document.addEventListener("DOMContentLoaded", function () {
+    const opponentContainer = document.getElementById("opponent-container");
+    const addOpponentBtn = document.getElementById("add-opponent");
+    const removeOpponentBtn = document.getElementById("remove-opponent");
+
+    // 対戦相手の追加
+    addOpponentBtn.addEventListener("click", function () {
+        const newOpponent = document.createElement("div");
+        newOpponent.classList.add("opponent-item");
+        newOpponent.innerHTML = `
+            <input type="text" name="opponents[]" class="opponents">
+        `;
+        opponentContainer.appendChild(newOpponent);
+    });
+
+    // 最後の対戦相手を削除
+    removeOpponentBtn.addEventListener("click", function () {
+        if (opponentContainer.children.length > 1) {
+            opponentContainer.lastElementChild.remove();
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', () => {
+        const opponentInputs = document.querySelectorAll('input[name="opponents[]"]');
+        opponentInputs.forEach(input => {
+            if (input.value.trim() === '') {
+                input.parentElement.remove(); // 空の入力フィールドを削除
+            }
+        });
+    });
+});

@@ -14,16 +14,15 @@
     <form action="{{ route('create_check') }}" method="POST">
         @csrf
         <div class="item">
-            <label for="school_years">学年:</label>
-            <select name="school_years[]" class="school_years" required>
-                <option value="">学年を選択してください</option>
-                <option value="１年生">１年生</option>
-                <option value="２年生">２年生</option>
-                <option value="３年生">３年生</option>
-                <option value="４年生">４年生</option>
-                <option value="５年生">５年生</option>
-                <option value="６年生">６年生</option>
-            </select>
+            <label>学年:</label><br>
+            <div id="school_years">
+                <label><input type="checkbox" name="school_years[]" value="１年生"> １年生</label><br>
+                <label><input type="checkbox" name="school_years[]" value="２年生"> ２年生</label><br>
+                <label><input type="checkbox" name="school_years[]" value="３年生"> ３年生</label><br>
+                <label><input type="checkbox" name="school_years[]" value="４年生"> ４年生</label><br>
+                <label><input type="checkbox" name="school_years[]" value="５年生"> ５年生</label><br>
+                <label><input type="checkbox" name="school_years[]" value="６年生"> ６年生</label><br>
+            </div>
         </div><br>
 
         <div class="item">
@@ -38,10 +37,26 @@
 
         <div class="item">
             <label for="opponents">対戦相手:</label>
-            <input type="text" name="opponents[]" class="opponents" required>
-            <input type="text" name="opponents[]" class="opponents">
-            <input type="text" name="opponents[]" class="opponents">
-            <input type="text" name="opponents[]" class="opponents">
+            <div id="opponent-container">
+                <div class="opponent-item">
+                    <input type="text" name="opponents[]" class="opponents" required>
+                </div>
+                <div class="opponent-item">
+                    <input type="text" name="opponents[]" class="opponents">
+                </div>
+                <div class="opponent-item">
+                    <input type="text" name="opponents[]" class="opponents">
+                </div>
+                <div class="opponent-item">
+                    <input type="text" name="opponents[]" class="opponents">
+                </div>
+            </div>
+
+            <div id="button_opponent">
+                <button type="button" id="add-opponent">＋追加</button>
+                <button type="button" id="remove-opponent">削除</button>
+            </div>
+
         </div><br>
 
         <div class="item">
