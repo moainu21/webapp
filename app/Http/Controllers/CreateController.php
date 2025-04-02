@@ -24,9 +24,9 @@ class CreateController extends Controller
 
         $opponents = $request->input('opponents', []);
 
-        // もし配列が空でない場合、「自分」を配列の先頭に追加
+        // もし配列が空でない場合、「自分」を配列の最後に追加
         if (!empty($opponents)) {
-            array_unshift($opponents, '自分');  // 配列の先頭に「自分」を追加
+            array_push($opponents, 'アスリーナ');  // 配列の最後に「自分」を追加
         }
         // 配列の個数をカウント
         $opponentCount = count($opponents);

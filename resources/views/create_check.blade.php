@@ -45,7 +45,8 @@
         // 試合の順番を調整する
         $scheduled_matches = [];
         $last_match = []; // 直前の試合
-        $consecutive_counts = []; // 連続試合回数
+        $consecutive_counts = array_fill_keys($opponents, 0);; // 連続試合回数
+        $referee_counts = array_fill_keys($opponents, 0); // 審判回数を追跡する配列
 
         while (!empty($matches)) {
             foreach ($matches as $index => $match) {
@@ -60,8 +61,11 @@
                     continue; // 連続試合が3回以上になりそうならスキップ
                 }
 
+                // どちらのプレイヤーが審判をするか決定（審判回数が少ない方を選ぶ）
+                $referee = ($referee_counts[$t1] <= $referee_counts[$t2]) ? $t1 : $t2;
+
                 // スケジュールに追加
-                $scheduled_matches[] = $match;
+                $scheduled_matches[] = ['match' => $match, 'referee' => $referee];
                 unset($matches[$index]); // 削除
 
                 // 直前の試合を更新
@@ -77,6 +81,8 @@
                         $consecutive_counts[$opponent] = 0;
                     }
                 }
+                // 審判の回数を更新
+                $referee_counts[$referee]++;
             }
         }
 
@@ -89,7 +95,9 @@
                 
 
                 <p>{{ $i }}試合目</p>
-                <p>{{ htmlspecialchars($scheduled_matches[$n][0]) }} vs {{ htmlspecialchars($scheduled_matches[$n][1]) }}</p>
+                <p>{{ htmlspecialchars($scheduled_matches[$n]['match'][0]) }} vs {{ htmlspecialchars($scheduled_matches[$n]['match'][1]) }}</p>
+
+                <p>審判: {{ htmlspecialchars($scheduled_matches[$n]['referee']) }}</p>
 
                 @if ($n < count($scheduled_matches) - 1)
                     @php
