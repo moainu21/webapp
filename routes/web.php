@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/create_form', [CreateController::class, 'create'])->name('create_form');
+Route::get('/create_form_basic', [CreateController::class, 'create'])->name('create_form_basic');
 Route::post('/create_check', [CreateController::class, 'index'])->name('create_check');

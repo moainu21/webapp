@@ -63,7 +63,7 @@ class CreateController extends Controller
             $request->session()->put('half_time', $request->input('half_time'));
         }
         
-        return view('create_check', compact('opponentCount', 'opponents'));
+        return view('create.create_check', compact('opponentCount', 'opponents'));
     }
 
     /**
@@ -71,7 +71,7 @@ class CreateController extends Controller
      */
     public function create()
     {
-        return view('create_form');
+        return view('create.create_form_basic');
     }
 
     /**

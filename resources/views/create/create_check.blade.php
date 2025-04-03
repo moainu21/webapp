@@ -36,7 +36,7 @@
         $opponentsCount = session('opponents_count');
         $matches = [];
 
-        for ($i = 0; $i < count($opponents) - 1; $i++) {
+        for ($i = 0; $i < count($opponents); $i++) {
             for ($j = $i + 1; $j < count($opponents); $j++) {
                 $matches[] = [$opponents[$i], $opponents[$j]];
             }
@@ -48,7 +48,7 @@
         $consecutive_counts = array_fill_keys($opponents, 0);; // 連続試合回数
         $referee_counts = array_fill_keys($opponents, 0); // 審判回数を追跡する配列
 
-        while (!empty($matches)) {
+        for ($i = 0; $i < $count; $i++) {
             foreach ($matches as $index => $match) {
                 $t1 = $match[0];
                 $t2 = $match[1];
@@ -87,11 +87,11 @@
         }
 
     @endphp
-
+    <div id="schedule">
     @if ($count > 0)
 
         @for ($i = 1; $i <= $count; $i++)
-            <div class="schedule">
+            <div class="match">
                 
 
                 <p>{{ $i }}試合目</p>
@@ -141,7 +141,8 @@
         @endfor
 
     @endif
+    </div>
 
-    <a href="{{ url()->previous() }}">戻る</a>
+    <button onclick="location.href='{{ url()->previous() }}'" class="btn_back">戻る</button>
 </body>
 </html>

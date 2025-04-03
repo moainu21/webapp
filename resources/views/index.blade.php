@@ -20,7 +20,7 @@
         <div class="contents">
             <div class="create-contents">
                 <h2>スケジュール作成</h2>
-                <a href="create_form">試合</a><br>
+                <a href="{{ route('create_form_basic') }}">試合</a><br>
                 <a href="#">カレンダー</a><br>
             </div>
             <div class="show-contents">
