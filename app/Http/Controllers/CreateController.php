@@ -13,65 +13,51 @@ class CreateController extends Controller
      */
     public function index(Request $request)
     {
-        $game = $request->input('game');
-        $number_of_matches = $request->input('number_of_matches');
-        $end_time = $request->input('end_time');
-        $half_time_check = $request->input('half_time_check');
+        $step = (int)$request->input('step', 1);
 
-        $request->session()->put('school_years', $request->input('school_years', []));
-        $request->session()->put('name', $request->input('name'));
-        $request->session()->put('plase', $request->input('plase'));
+        // POSTの時のみ保存処理
+        if ($request->isMethod('post')) {
+            $input = $request->except('_token', 'step');
+            $formData = session('form_data', []);
 
-        $opponents = $request->input('opponents', []);
+            // ステップごとのデータをセッションにまとめて格納
+            $formData["step{$step}"] = $input;
 
-        // もし配列が空でない場合、「自分」を配列の最後に追加
-        if (!empty($opponents)) {
-            array_push($opponents, 'アスリーナ');  // 配列の最後に「自分」を追加
-        }
-        // 配列の個数をカウント
-        $opponentCount = count($opponents);
-
-        $request->session()->put('opponents', $opponents);
-        $request->session()->put('opponents_count', $opponentCount);
-        
-        $request->session()->put('date', $request->input('date'));
-        $request->session()->put('start_time', $request->input('start_time'));
-        $request->session()->put('time', $request->input('time'));
-        $request->session()->put('court', $request->input('court'));
-        $request->session()->put('people', $request->input('people'));
-        $request->session()->put('game', $request->input('game'));
-
-        if($game == "interleague_match"){
-
-            if(filled($number_of_matches)){
-                $request->session()->put('number_of_matches', $request->input('number_of_matches'));
-            } else if(filled($end_time)){
-                $request->session()->put('end_time', $request->input('end_time'));
+            // 特別処理：step1のopponentsに「アスリーナ」追加
+            if ($step === 1 && isset($input['opponents'])) {
+                $opponents = array_filter($input['opponents']); // 空要素除去
+                array_push($opponents, 'アスリーナ');
+                $formData['step1']['opponents'] = $opponents;
+                $formData['step1']['opponents_count'] = count($opponents);
             }
 
-            $request->session()->put('interval', $request->input('interval'));
+            session(['form_data' => $formData]);
 
-        } else if($game == "tournament"){
-            $request->session()->put('qualifying_interval', $request->input('qualifying_interval'));
-            $request->session()->put('end_semi_final_intervaltime', $request->input('semi_final_interval'));
-            $request->session()->put('final_interval', $request->input('final_interval'));
+            // ステップを進める
+            $step++;
         }
 
-        $request->session()->put('half_time_check', $request->input('half_time_check'));
-
-        if($half_time_check == "true"){
-            $request->session()->put('half_time', $request->input('half_time'));
+        // step 4 なら確認画面
+        if ($step > 3) {
+            $formData = session('form_data', []);
+            return view('create.create_check', compact('formData'));
         }
-        
-        return view('create.create_check', compact('opponentCount', 'opponents'));
+
+        return view('create.create_form', [
+            'step' => $step,
+            'formData' => session('form_data', []),
+        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('create.create_form_basic');
+        $step = $request->session()->get('step', 1);
+
+        return view('create.create_form', compact('step'));
     }
 
     /**

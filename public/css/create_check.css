@@ -1,0 +1,83 @@
+h1,footer{
+    text-align: center;
+    margin-top: 5vh;
+}
+
+h2,p{
+    display: inline-block;
+    margin-top: 2vh;
+}
+
+h2{
+    margin-left: 2vw;
+    margin-right: 2vw;
+}
+
+p{
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+header{
+    margin-top: 2%;
+}
+
+hr{
+    border: none;
+    border-bottom: 10px solid #333;
+    margin: 0;
+}
+
+.steps {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 18px;
+}
+
+.step {
+    color: #aaa;
+}
+
+.current-step {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.completed-step {
+    color: green;
+    font-weight: bold;
+}
+
+.schoolyear h2{
+    margin: 0;
+}
+
+.schoolyear{
+    margin-right: 2vw;
+}
+
+.school{
+    text-align: center;
+}
+
+.address{
+    display: block;
+    text-align: center;
+}
+
+.gameinfo{
+    text-align: center;
+}
+
+#schedule{
+    text-align: center;
+}
+
+.halftime{
+    display: inline-block;
+}
+
+.referee{
+    display: inline-block;
+}

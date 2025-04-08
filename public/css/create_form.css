@@ -7,6 +7,29 @@ header{
     margin-top: 2%;
 }
 
+.steps {
+    margin: 20px 0;
+    text-align: center;
+    font-size: 18px;
+}
+
+.step {
+    color: #aaa;
+}
+
+.current-step {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.completed-step {
+    color: green;
+    font-weight: bold;
+}
+
+
+
 hr{
     border: none;
     border-bottom: 10px solid #333;

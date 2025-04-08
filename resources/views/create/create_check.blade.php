@@ -4,36 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>確認画面</title>
+    <link rel="stylesheet" href="css/create_check.css">
 </head>
+<header>
+    <div class="steps">
+        <span class="completed-step">基本情報→試合情報→詳細情報→</span><span class="current-step">確認</span>
+    </div>
+    <hr>
+</header>
 <body>
-    <h1>{{ session('name') }}</h1>
     @php
-        $schoolYears = session('school_years')
+        $formData = session('form_data', []);
+        $step1 = $formData['step1'] ?? [];
+        $step2 = $formData['step2'] ?? [];
+        $step3 = $formData['step3'] ?? [];
     @endphp
-    @foreach ($schoolYears as $school)
-        <h2>{{ $school }}</h2>
-    @endforeach
-    <h2>日程：{{ session('date') }}</h2>
-    <h2>会場：{{ session('plase') }}</h2>
-    <h2>試合時間：{{ session('time') }}分1本</h2>
-    <h2>試合人数：{{ session('people') }}人制</h2>
+
+    <h1>{{ $step1['name'] ?? '' }}</h1>
+    <div class="school">
+        <span class="schoolyear">
+            @foreach ($step1['school_years'] ?? [] as $school)
+                <h2>{{ $school }}</h2>
+            @endforeach
+        </span>
+
+        <h2>日程：{{ $step1['date'] ?? '' }}</h2>
+    </div>
+    <div class="address">
+        <h2>会場：{{ $step1['plase'] ?? '' }}</h2>
+    </div>
+    <div class="gameinfo">
+        <h2>試合時間：{{ $step2['time'] ?? '' }}分1本</h2>
+        <h2>試合人数：{{ $step2['people'] ?? '' }}人制</h2>
+    </div>
+
 
     @php
         use Carbon\Carbon;
 
         $n = 0;
-        $count = session('number_of_matches',0);
-        $endTime = session('end_time','00:00');
-        $startTime = session('start_time');
-        $time = session('time');
-        $interval = session('interval');
-        $halfTime = session('half_time',0);
+        $count = $step3['number_of_matches'] ?? 0;
+        $endTime = $step3['end_time'] ?? '00:00';
+        $startTime = $step1['start_time'] ?? '00:00';
+        $time = $step2['time'] ?? 0;
+        $interval = $step3['interval'] ?? 0;
+        $halfTime = $step3['half_time'] ?? 0;
 
         $carbonStartTime = Carbon::createFromFormat('H:i', $startTime);
         $carbonEndTime = Carbon::createFromFormat('H:i', $endTime);
 
-        $opponents = session('opponents');
-        $opponentsCount = session('opponents_count');
+        $opponents = $step1['opponents'] ?? [];
+        $opponentsCount = $step1['opponents_count'];
         $matches = [];
 
         for ($i = 0; $i < count($opponents); $i++) {
@@ -65,7 +86,7 @@
                 $referee = ($referee_counts[$t1] <= $referee_counts[$t2]) ? $t1 : $t2;
 
                 // スケジュールに追加
-                $scheduled_matches[] = ['match' => $match, 'referee' => $referee];
+                $scheduled_matches[] = ['match' => $match, 'referee' => $halfTime > 0 ? $match : $referee,];     // halfTimeありなら両者
                 unset($matches[$index]); // 削除
 
                 // 直前の試合を更新
@@ -94,10 +115,55 @@
             <div class="match">
                 
 
-                <p>{{ $i }}試合目</p>
+                <h3>{{ $i }}試合目</h3>
                 <p>{{ htmlspecialchars($scheduled_matches[$n]['match'][0]) }} vs {{ htmlspecialchars($scheduled_matches[$n]['match'][1]) }}</p>
 
-                <p>審判: {{ htmlspecialchars($scheduled_matches[$n]['referee']) }}</p>
+                @php
+                    $teamA = $scheduled_matches[$n]['match'][0];
+                    $teamB = $scheduled_matches[$n]['match'][1];
+                @endphp
+
+                @php
+                    $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
+                @endphp
+                <div class="halftime">
+                    @if ($halfTime > 0)
+                        <h4>前半</h4>
+                    @endif
+
+                    <p>{{ $carbonStartTime->format('H:i') }} ~ {{ $newTime }}</p>
+
+                    @if ($halfTime > 0)
+
+                        <h4>後半</h4>
+
+                        @php
+                            $carbonStartTime->addMinutes($time + $halfTime);
+                            $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
+                        @endphp
+
+                        <p>{{ $carbonStartTime->format('H:i') }} ~ {{ $newTime }}</p>
+                        
+                    @endif
+                </div>
+                
+                @php
+                    $carbonStartTime->addMinutes($time + $interval);
+                @endphp
+
+                <div class="referee">
+                    @if ($halfTime > 0)
+                        {{-- 前半 --}}
+                        <h4>前半審判</h4>
+                        <p>{{ $teamA }}</p>
+                        {{-- 後半 --}}
+                        <h4>後半審判</h4>
+                        <p>{{ $teamB }}</p>
+                    @else
+                        {{-- halfTime がない通常試合 --}}
+                        <p>審判: {{ $scheduled_matches[$i]['referee'] }}</p>
+                    @endif
+                </div>
 
                 @if ($n < count($scheduled_matches) - 1)
                     @php
@@ -109,33 +175,6 @@
                     @endphp
                 @endif
 
-                @php
-                    $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
-                @endphp
-                @if ($halfTime > 0)
-                    <p>前半</p>
-                @endif
-
-                <p>{{ $carbonStartTime->format('H:i') }} ~ {{ $newTime }}</p>
-
-                @if ($halfTime > 0)
-
-                    <p>後半</p>
-
-                    @php
-                        $carbonStartTime->addMinutes($time);
-                        $carbonStartTime->addMinutes($halfTime);
-                        $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
-                    @endphp
-
-                    <p>{{ $carbonStartTime->format('H:i') }} ~ {{ $newTime }}</p>
-                    
-                @endif
-
-                @php
-                    $carbonStartTime->addMinutes($time + $interval);
-                @endphp
-
             </div>
             
         @endfor
@@ -143,6 +182,11 @@
     @endif
     </div>
 
-    <button onclick="location.href='{{ url()->previous() }}'" class="btn_back">戻る</button>
+    <form id="backForm" method="POST" action="{{ route('create.form') }}">
+        @csrf
+        <input type="hidden" name="step" value="0">
+        <button type="submit" class="btn_back">戻る</button>
+    </form>
+
 </body>
 </html>
