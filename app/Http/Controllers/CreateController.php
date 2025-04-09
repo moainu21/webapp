@@ -14,9 +14,10 @@ class CreateController extends Controller
     public function index(Request $request)
     {
         $step = (int)$request->input('step', 1);
+        $isBack = $request->input('back') === 'true';
 
         // POSTの時のみ保存処理
-        if ($request->isMethod('post')) {
+        if ($request->isMethod('post') && !$isBack) {
             $input = $request->except('_token', 'step');
             $formData = session('form_data', []);
 

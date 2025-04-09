@@ -70,14 +70,32 @@ hr{
     text-align: center;
 }
 
-#schedule{
+.schedule{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);;
+    gap: 1vw; /* 要素間の間隔 */
     text-align: center;
+    margin-top: 1vh; /* 上部に余白を追加 */
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+.match{
+    border: 1px solid #ccc; /* 枠線を追加 */
+    border-radius: 5px; /* 角を丸くする */
+    background-color: #d6f5ff; /* 背景色を追加 */
+}
+
+.match-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .halftime{
-    display: inline-block;
+    display: block;
 }
 
 .referee{
-    display: inline-block;
+    display: block;
 }

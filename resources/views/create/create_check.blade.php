@@ -49,6 +49,7 @@
         $time = $step2['time'] ?? 0;
         $interval = $step3['interval'] ?? 0;
         $halfTime = $step3['half_time'] ?? 0;
+        $halfTimeCheck = $step3['half_time_check'] ?? 'false';
 
         $carbonStartTime = Carbon::createFromFormat('H:i', $startTime);
         $carbonEndTime = Carbon::createFromFormat('H:i', $endTime);
@@ -86,7 +87,7 @@
                 $referee = ($referee_counts[$t1] <= $referee_counts[$t2]) ? $t1 : $t2;
 
                 // スケジュールに追加
-                $scheduled_matches[] = ['match' => $match, 'referee' => $halfTime > 0 ? $match : $referee,];     // halfTimeありなら両者
+                $scheduled_matches[] = ['match' => $match, 'referee' => $halfTimeCheck == "true" ? $match : $referee,];     // halfTimeありなら両者
                 unset($matches[$index]); // 削除
 
                 // 直前の試合を更新
@@ -108,84 +109,103 @@
         }
 
     @endphp
-    <div id="schedule">
-    @if ($count > 0)
+    <div class="schedule">
+        @if ($count > 0)
 
-        @for ($i = 1; $i <= $count; $i++)
-            <div class="match">
-                
+            @for ($i = 1; $i <= $count; $i++)
 
-                <h3>{{ $i }}試合目</h3>
-                <p>{{ htmlspecialchars($scheduled_matches[$n]['match'][0]) }} vs {{ htmlspecialchars($scheduled_matches[$n]['match'][1]) }}</p>
+                <div class="match">
+                    <h3>{{ $i }}試合目</h3>
 
-                @php
-                    $teamA = $scheduled_matches[$n]['match'][0];
-                    $teamB = $scheduled_matches[$n]['match'][1];
-                @endphp
-
-                @php
-                    $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
-                @endphp
-                <div class="halftime">
-                    @if ($halfTime > 0)
-                        <h4>前半</h4>
-                    @endif
-
-                    <p>{{ $carbonStartTime->format('H:i') }} ~ {{ $newTime }}</p>
-
-                    @if ($halfTime > 0)
-
-                        <h4>後半</h4>
+                    <div class="match-info">
+                    
+                        <p>{{ htmlspecialchars($scheduled_matches[$n]['match'][0]) }} vs {{ htmlspecialchars($scheduled_matches[$n]['match'][1]) }}</p>
 
                         @php
-                            $carbonStartTime->addMinutes($time + $halfTime);
-                            $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
+                            $teamA = $scheduled_matches[$n]['match'][0];
+                            $teamB = $scheduled_matches[$n]['match'][1];
                         @endphp
 
-                        <p>{{ $carbonStartTime->format('H:i') }} ~ {{ $newTime }}</p>
+                        @php
+                            $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
+                        @endphp
+                        <div class="halftime">
+                            @if ($halfTimeCheck == "true")
+                                {{-- halfTime がある場合 --}}
+                                <h4>前半</h4>
+                            @endif
+
+                            <p>{{ $carbonStartTime->format('H:i') }} ~ {{ $newTime }}</p>
+
+                            @if ($halfTimeCheck == "true")
+
+                                <h4>後半</h4>
+
+                                @php
+                                    $carbonStartTime->addMinutes($time + $halfTime);
+                                    $newTime = $carbonStartTime->copy()->addMinutes($time)->format('H:i');
+                                @endphp
+
+                                <p>{{ $carbonStartTime->format('H:i') }} ~ {{ $newTime }}</p>
+                                
+                            @endif
+                        </div>
                         
-                    @endif
+                        @php
+                            $carbonStartTime->addMinutes($time + $interval);
+                        @endphp
+
+                        <div class="referee">
+                            @if ($halfTimeCheck == "true")
+                                {{-- 前半 --}}
+                                <h4>前半審判</h4>
+                                <p>{{ $teamA }}</p>
+                                {{-- 後半 --}}
+                                <h4>後半審判</h4>
+                                <p>{{ $teamB }}</p>
+                            @else
+                                {{-- halfTime がない通常試合 --}}
+                                <p>審判: {{ $scheduled_matches[$n]['referee'] }}</p>
+                            @endif
+                        </div>
+
+                        @if ($n < count($scheduled_matches) - 1)
+                            @php
+                                $n++;
+                            @endphp
+                        @else
+                            @php
+                                $n = 0;
+                            @endphp
+                        @endif
+                    </div>
+
                 </div>
                 
-                @php
-                    $carbonStartTime->addMinutes($time + $interval);
-                @endphp
+            @endfor
 
-                <div class="referee">
-                    @if ($halfTime > 0)
-                        {{-- 前半 --}}
-                        <h4>前半審判</h4>
-                        <p>{{ $teamA }}</p>
-                        {{-- 後半 --}}
-                        <h4>後半審判</h4>
-                        <p>{{ $teamB }}</p>
-                    @else
-                        {{-- halfTime がない通常試合 --}}
-                        <p>審判: {{ $scheduled_matches[$i]['referee'] }}</p>
-                    @endif
-                </div>
-
-                @if ($n < count($scheduled_matches) - 1)
-                    @php
-                        $n++;
-                    @endphp
-                @else
-                    @php
-                        $n = 0;
-                    @endphp
-                @endif
-
-            </div>
-            
-        @endfor
-
-    @endif
+        @endif
     </div>
 
-    <form id="backForm" method="POST" action="{{ route('create.form') }}">
+    <form id="basicBackForm" method="POST" action="{{ route('create.form') }}">
         @csrf
-        <input type="hidden" name="step" value="0">
-        <button type="submit" class="btn_back">戻る</button>
+        <input type="hidden" name="step" value="1">
+        <input type="hidden" name="back" value="true">
+        <button type="submit" class="btn_back">基本情報編集</button>
+    </form>
+
+    <form id="gameBackForm" method="POST" action="{{ route('create.form') }}">
+        @csrf
+        <input type="hidden" name="step" value="2">
+        <input type="hidden" name="back" value="true">
+        <button type="submit" class="btn_back">試合情報編集</button>
+    </form>
+
+    <form id="ditailBackForm" method="POST" action="{{ route('create.form') }}">
+        @csrf
+        <input type="hidden" name="step" value="3">
+        <input type="hidden" name="back" value="true">
+        <button type="submit" class="btn_back">詳細情報編集</button>
     </form>
 
 </body>

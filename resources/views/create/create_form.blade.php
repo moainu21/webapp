@@ -54,8 +54,8 @@
 
         <input type="hidden" name="step" value="{{ $step ?? 1 }}">
         @if ($step == 1)
-            <div id="basic_info">
-                <h1>基本情報</h1>
+            <div id="basic_info" class="fixed-section">
+                <h2>基本情報</h2>
                 <div class="item">
                     <label>学年:</label><br>
                     @php
@@ -126,11 +126,10 @@
                     <label for="start_time">開始時刻:</label>
                     <input type="time" name="start_time" id="start_time" value="{{ $step1['start_time'] ?? '' }}" required>
                 </div><br>
-                <button type="submit" id="next_btn">次へ</button>
             </div>
         @elseif ($step == 2)
-            <div id="game_info">
-                <h1>試合情報</h1>
+            <div id="game_info" class="fixed-section">
+                <h2>試合情報</h2>
                 <div class="item">
                     <label for="time">試合時間:</label>
                     <input type="number" name="time" id="time" value="{{ $step2['time'] ?? '10' }}" min="1" max="45" required><label for="time">分</label>
@@ -145,11 +144,10 @@
                     <label for="people">試合人数:</label>
                     <input type="number" name="people" id="people" min="1" value="{{ $step2['people'] ?? '6' }}" required><label for="people">人</label>
                 </div><br>
-                <button type="submit" id="next_btn">次へ</button>
             </div>
         @elseif ($step == 3)
-            <h1>詳細情報</h1>
-            <div id="detail_info">
+            <div id="detail_info" class="fixed-section">
+                <h2>詳細情報</h2>
                 <div class="item">
                     <label class="my-radio">試合形式:</label>
                     <label for="interleague_match"><input type="radio" name="game" id="interleague_match" value="interleague_match" {{ ($step2['game'] ?? 'interleague_match') == 'interleague_match' ? 'checked' : '' }}>交流戦</label>
@@ -200,7 +198,6 @@
                     <label for="half_time" class="my-radio">ハーフタイム:</label>
                     <label for="true"><input type="radio" name="half_time_check" id="true" value="true" {{ ($step3['half_time_check'] ?? 'true') == 'true' ? 'checked' : '' }}>あり</label>
                     <label for="false"><input type="radio" name="half_time_check" id="false" value="false" {{ ($step3['half_time_check'] ?? '') == 'false' ? 'checked' : '' }}>なし</label>
-                    <button type="submit" id="next_btn">次へ</button>
                 </div><br>
 
                 <div id="half_time_input">
@@ -208,6 +205,7 @@
                 </div>
             </div>
         @endif
+        <button type="submit" id="next_btn">次へ</button>
     </form>
     <footer>
         <p>&copy; 2025 試合スケジュール管理システム</p>
