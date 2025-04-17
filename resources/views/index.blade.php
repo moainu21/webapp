@@ -12,6 +12,11 @@
         <h1>試合スケジュール管理システム</h1><br>
     </header>
     <hr>
+    @if (session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @endif
     <article>
         <div class="side">
             <button id="create">作成</button>
@@ -25,21 +30,75 @@
             </div>
             <div class="show-contents">
                 <h2>試合スケジュール（過去）</h2>
-                <a href="#">１年生</a><br>
-                <a href="#">２年生</a><br>
-                <a href="#">３年生</a><br>
-                <a href="#">４年生</a><br>
-                <a href="#">５年生</a><br>
-                <a href="#">６年生</a><br>
-                <a href="#">カレンダー</a><br>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="1">
+                    <button type="submit" class="school_years">１年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="2">
+                    <button type="submit" class="school_years">２年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="3">
+                    <button type="submit" class="school_years">３年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="4">
+                    <button type="submit" class="school_years">４年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="5">
+                    <button type="submit" class="school_years">５年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="6">
+                    <button type="submit" class="school_years">６年生</button>
+                </form>
+                <form method="POST" action="#">
+                    @csrf
+                    <button type="submit" class="calender">カレンダー</button>
+                </form>
                 <h2>試合スケジュール（予定）</h2>
-                <a href="#">１年生</a><br>
-                <a href="#">２年生</a><br>
-                <a href="#">３年生</a><br>
-                <a href="#">４年生</a><br>
-                <a href="#">５年生</a><br>
-                <a href="#">６年生</a><br>
-                <a href="#">カレンダー</a><br>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="1">
+                    <button type="submit" class="school_years">１年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="2">
+                    <button type="submit" class="school_years">２年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="3">
+                    <button type="submit" class="school_years">３年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="4">
+                    <button type="submit" class="school_years">４年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="5">
+                    <button type="submit" class="school_years">５年生</button>
+                </form>
+                <form method="POST" action="{{ route('show') }}">
+                    @csrf
+                    <input type="hidden" name="school_year" value="6">
+                    <button type="submit" class="school_years">６年生</button>
+                </form>
+                <form method="POST" action="#">
+                    @csrf
+                    <button type="submit" class="calender">カレンダー</button>
+                </form>
             </div>
 
         </div>

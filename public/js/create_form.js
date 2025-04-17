@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const countDiv = document.getElementById("count");
     const finishDiv = document.getElementById("finish");
-    const toggleButtons = document.querySelectorAll("#toggle_btn");
+    const toggleButtons = document.querySelectorAll(".toggle_btn");
 
     // 最初に `finish` を非表示にする
     finishDiv.style.display = "none";
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleButtons.forEach(button => {
         button.addEventListener("click", toggleDisplay);
     });
-})
+});
 
 document.addEventListener("DOMContentLoaded", function () {
     const opponentContainer = document.getElementById("opponent-container");

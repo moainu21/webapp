@@ -52,7 +52,7 @@
             $step3 = $formData['step3'] ?? [];
         @endphp
 
-        <input type="hidden" name="step" value="{{ $step ?? 1 }}">
+        <input type="hidden" name="step" id="step_num" value="{{ $step ?? 1 }}">
         @if ($step == 1)
             <div id="basic_info" class="fixed-section">
                 <h2>基本情報</h2>
@@ -76,8 +76,8 @@
                 </div><br>
 
                 <div class="item">
-                    <label for="plase">会場:</label>
-                    <input type="text" name="plase" id="plase" value="{{ $step1['plase'] ?? '' }}" required>
+                    <label for="place">会場:</label>
+                    <input type="text" name="place" id="place" value="{{ $step1['place'] ?? '' }}" required>
                 </div><br>
 
                 <div class="item">
@@ -158,7 +158,7 @@
                     <div class="item" id="count">
                         <div class="btn_label">
                             <label for="number_of_matches" class="lavel">試合回数:</label>
-                            <button type=”button” id="toggle_btn"><img src="image/change.jpg" alt="変化させるボタン"></button>
+                            <button type="button" class="toggle_btn"><img src="image/change.jpg" alt="変化させるボタン"></button>
                         </div>
                         <input type="number" name="number_of_matches" id="number_of_matches" min="1" value="{{ $step3['number_of_matches'] ?? '' }}"><label for="number_of_matches">回</label>
                     </div><br>
@@ -166,7 +166,7 @@
                     <div class="item" id="finish">
                         <div class="btn_label">
                             <label for="end_time" class="lavel">終了時間:</label>
-                            <button type=”button” id="toggle_btn"><img src="image/change.jpg" alt="変化させるボタン"></button>
+                            <button type="button" class="toggle_btn"><img src="image/change.jpg" alt="変化させるボタン"></button>
                         </div>
                         <input type="time" name="end_time" id="end_time" value="{{ $step3['end_time'] ?? '' }}">
                     </div><br>
@@ -178,6 +178,11 @@
                 </div>
 
                 <div id="official_match">
+                    <div class="item">
+                        <label for="qualifying_group">予選グループ数:</label>
+                        <input type="number" name="qualifying_group" id="qualifying_group" min="0" value="{{ $step3['qualifying_group'] ?? '' }}"><label for="qualifying_group">個</label>
+                    </div><br>
+
                     <div class="item">
                         <label for="qualifying_interval">予選試合間隔:</label>
                         <input type="number" name="qualifying_interval" id="qualifying_interval" min="0" value="{{ $step3['qualifying_interval'] ?? '' }}"><label for="qualifying_interval">分</label>
@@ -194,14 +199,14 @@
                     </div><br>
                 </div>
 
-                <div class = half_time>
+                <div class = "half_time">
                     <label for="half_time" class="my-radio">ハーフタイム:</label>
                     <label for="true"><input type="radio" name="half_time_check" id="true" value="true" {{ ($step3['half_time_check'] ?? 'true') == 'true' ? 'checked' : '' }}>あり</label>
                     <label for="false"><input type="radio" name="half_time_check" id="false" value="false" {{ ($step3['half_time_check'] ?? '') == 'false' ? 'checked' : '' }}>なし</label>
                 </div><br>
 
                 <div id="half_time_input">
-                    <input type="number" name="half_time" id="half_time" min="0" value="{{ $step3['half_time'] ?? '' }}"><label for="half_time">分</label>
+                    <input type="number" name="half_time" id="half_time" min="1" value="{{ $step3['half_time'] ?? '' }}"><label for="half_time">分</label>
                 </div>
             </div>
         @endif

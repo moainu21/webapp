@@ -6,36 +6,23 @@
     <title>確認画面</title>
     <link rel="stylesheet" href="css/create_check.css">
 </head>
-<header>
-    <div class="steps">
-        <span class="completed-step">基本情報→試合情報→詳細情報→</span><span class="current-step">確認</span>
-    </div>
-    <hr>
-</header>
 <body>
-    @php
-        $formData = session('form_data', []);
-        $step1 = $formData['step1'] ?? [];
-        $step2 = $formData['step2'] ?? [];
-        $step3 = $formData['step3'] ?? [];
-    @endphp
-
-    <h1>{{ $step1['name'] ?? '' }}</h1>
+    <h1>{{ $schedule->tournament->name }}</h1>
     <div class="school">
         <span class="schoolyear">
-            @foreach ($step1['school_years'] ?? [] as $school)
-                <h2>{{ $school }}</h2>
+            @foreach ($schedule->schoolYears as $schoolYear)
+                <h2>{{ $schoolYear->name }}</h2>
             @endforeach
         </span>
 
-        <h2>日程：{{ $step1['date'] ?? '' }}</h2>
+        <h2>日程：{{ $schedule->date }}</h2>
     </div>
     <div class="address">
-        <h2>会場：{{ $step1['place'] ?? '' }}</h2>
+        <h2>会場：{{  $schedule->place->name }}</h2>
     </div>
     <div class="gameinfo">
-        <h2>試合時間：{{ $step2['time'] ?? '' }}分1本</h2>
-        <h2>試合人数：{{ $step2['people'] ?? '' }}人制</h2>
+        <h2>試合時間：{{ $schedule->time }}分1本</h2>
+        <h2>試合人数：{{ $schedule->people }}人制</h2>
     </div>
 
 
@@ -43,18 +30,23 @@
         use Carbon\Carbon;
 
         $n = 0;
-        $count = $step3['number_of_matches'] ?? 0;
-        $endTime = $step3['end_time'] ?? '00:00';
-        $startTime = $step1['start_time'] ?? '00:00';
-        $time = $step2['time'] ?? 0;
-        $interval = $step3['interval'] ?? 0;
-        $halfTime = $step3['half_time'] ?? 0;
-        $halfTimeCheck = $step3['half_time_check'] ?? 'false';
+        $count = $schedule->number_of_matches ?? 0;
+        $endTime = $schedule->end_time ?? '00:00';
+        $startTime = $schedule->start_time ?? '00:00';
+        $time = $schedule->time ?? 0;
+        $interval = $schedule->interval ?? 0;
+        $halfTime = $schedule->half_time ?? 0;
+        $halfTimeCheck = $schedule->half_time_check ?? 'false';
 
-        $carbonStartTime = Carbon::createFromFormat('H:i', $startTime);
-        $carbonEndTime = Carbon::createFromFormat('H:i', $endTime);
+        $carbonStartTime = Carbon::parse($startTime);
+        $carbonEndTime = Carbon::parse($endTime);
 
-        $opponents = $step1['opponents'] ?? [];
+        $opponents = [];
+
+        foreach ($schedule->opponents as $opponent){
+            $opponents[] = $opponent->name;
+        }
+        dd($opponents);
         $opponentsCount = count($opponents);
         $matches = [];
 
@@ -198,31 +190,23 @@
     </div>
 
     <div class="btn">
-        <form id="basicBackForm" method="POST" action="{{ route('create.form') }}">
+
+        <form id="BackHome" method="POST" action="{{ route('index') }}">
             @csrf
-            <input type="hidden" name="step" value="1">
-            <input type="hidden" name="back" value="true">
-            <button type="submit" class="btn_back">基本情報編集</button>
+            <button type="submit" class="btn_back">戻る</button>
         </form>
 
-        <form id="gameBackForm" method="POST" action="{{ route('create.form') }}">
+        <form id="edit" method="POST" action="#">
             @csrf
-            <input type="hidden" name="step" value="2">
-            <input type="hidden" name="back" value="true">
-            <button type="submit" class="btn_back">試合情報編集</button>
+            <button type="submit" class="btn_edit">編集</button>
         </form>
 
-        <form id="ditailBackForm" method="POST" action="{{ route('create.form') }}">
+        <form method="POST" action="{{ route('schedule.destroy', $schedule->id) }}" onsubmit="return confirm('本当に削除してもいいですか？');">
             @csrf
-            <input type="hidden" name="step" value="3">
-            <input type="hidden" name="back" value="true">
-            <button type="submit" class="btn_back">詳細情報編集</button>
+            @method('DELETE')
+            <button type="submit">削除</button>
         </form>
-
-        <form id="checkForm" method="POST" action="{{ route('store') }}">
-            @csrf
-            <button type="submit" class="btn_create">作成</button>
-        </form>
+        
     </div>
 </body>
 </html>

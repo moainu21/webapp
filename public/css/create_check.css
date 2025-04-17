@@ -99,3 +99,47 @@ hr{
 .referee{
     display: block;
 }
+
+button{
+    width: 10vw;
+    height: 5.85vh;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-top: 3vh;
+    margin-bottom: 2vh;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    background: transparent;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+button:hover{
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn_back{
+    color: #fff;
+    background-color: #B56000;
+    font-size: medium;
+    text-align: center;
+}
+
+.btn_create{
+    color: #fff;
+    background-color: #001686;
+    font-size: medium;
+    text-align: center;
+}
